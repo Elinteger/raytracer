@@ -1,0 +1,1 @@
+"A basic Java raytracer developed during the Computer Graphics Basics course in winter semester 2023/24 as part of my Bachelor's degree."
