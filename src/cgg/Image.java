@@ -1,24 +1,36 @@
-/** @author henrik.tramberend@beuth-hochschule.de */
 package cgg;
 
 import cgtools.*;
 
 public class Image {
+  protected int width;
+  protected int height;
+  protected double[][][] pixels; 
+
   public Image(int width, int height) {
-    notYetImplemented();
+    this.width = width;
+    this.height = height;
+    // 3 because of rgb
+    this.pixels = new double[width][height][3];
   }
 
   public void setPixel(int x, int y, Color color) {
-    notYetImplemented();
+    pixels[x][y][0] = color.r();
+    pixels[x][y][1] = color.g();
+    pixels[x][y][2] = color.b();
   }
 
   public void write(String filename) {
-    // Use cggtools.ImageWriter.write() to implement this.
-    notYetImplemented();
-  }
+    // unravel double[][][] to double[] as thats expected from the prewritten function `ImageWriter.write()`
+    double[] data = new double[width*height*3];
+    int currentIndex = 0;
+    for(int x = 0; x < width; x++) {
+      for(int y = 0; y < height; y++) {
+        System.arraycopy(pixels[x][y], 0, data, currentIndex, 3);
+        currentIndex +=3;
+      }
+    }
 
-  private void notYetImplemented() {
-    System.err.println("\nPlease complete the implementation of class cgg.Image as part of assignment 1.\n");
-    System.exit(1);
+    ImageWriter.write(filename, data, width, height);
   }
 }

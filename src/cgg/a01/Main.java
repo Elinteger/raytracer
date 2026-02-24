@@ -11,7 +11,7 @@ public class Main {
     var height = 270;
 
     // Defines the contents of the image.
-    var content = new ConstantColor(gray);
+    var content = new ConstantColor(green);
 
     // Creates an image and iterates over all pixel positions inside the image.
     var image = new Image(width, height);
