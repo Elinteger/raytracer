@@ -1,1 +1,1 @@
-"A basic Java raytracer developed during the Computer Graphics Basics course in winter semester 2023/24 as part of my Bachelor's degree."
+> This project is W.I.P. as I am currently redoing the implementation in my freetime as a "just for fun"-project to get myself familiar with Java again :). Proper `README.md` will happen once I am done! 
