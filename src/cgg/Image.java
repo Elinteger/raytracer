@@ -1,36 +1,48 @@
 package cgg;
 
-import cgtools.*;
+import tools.*;
 
-public class Image {
-  protected int width;
-  protected int height;
-  protected double[][][] pixels; 
+public class Image implements tools.Image {
 
-  public Image(int width, int height) {
-    this.width = width;
-    this.height = height;
-    // 3 because of rgb
-    this.pixels = new double[width][height][3];
-  }
-
-  public void setPixel(int x, int y, Color color) {
-    pixels[x][y][0] = color.r();
-    pixels[x][y][1] = color.g();
-    pixels[x][y][2] = color.b();
-  }
-
-  public void write(String filename) {
-    // unravel double[][][] to double[] as thats expected from the prewritten function `ImageWriter.write()`
-    double[] data = new double[width*height*3];
-    int currentIndex = 0;
-    for(int x = 0; x < width; x++) {
-      for(int y = 0; y < height; y++) {
-        System.arraycopy(pixels[x][y], 0, data, currentIndex, 3);
-        currentIndex +=3;
-      }
+    // ---8<--- missing-implementation
+    // Provides storage for the image data.
+    public Image(int width, int height) {
     }
 
-    ImageWriter.write(filename, data, width, height);
-  }
+    // Stores the RGB color components for one pixel addressed
+    // by it's coordinates in the image.
+    public void setPixel(int x, int y, Color color) {
+    }
+
+    // Stores the image data in a PNG file.
+    public void writePng(String name) {
+        System.out.format("Implement function `cgg.Image.writePng` to actually write image `%s`\n", name);
+        // ImageWriter.writePng(name, data, width, height);
+    }
+    // --->8---
+
+    // Retrieves the RGB color components for one particular pixel addressed
+    // by it's coordinates in the image.
+    public Color getPixel(int x, int y) {
+        return Color.black;
+    }
+
+    public void writeHdr(String name) {
+        System.out.format("Implement function `cgg.Image.writeHdr` to actually write image `%s`\n", name);
+        // ImageWriter.writeHdr(name, data, width, height);
+    }
+
+    public int width() {
+        // This is just a dummy value to make the compiler happy. This
+        // needs to be adjusted such that the actual width of the Image is
+        // returned.
+        return 0;
+    }
+
+    public int height() {
+        // This is just a dummy value to make the compiler happy. This
+        // needs to be adjusted such that the actual height of the Image is
+        // returned.
+        return 0;
+    }
 }

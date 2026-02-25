@@ -1,10 +1,11 @@
-/** @author henrik.tramberend@beuth-hochschule.de */
-package cgtools;
+package tools;
 
 /**
  * A faster replacement for java.util.Random.
  *
- * <p>Adapted from http://dsiutils.di.unimi.it/docs/it/unimi/dsi/util/SplitMix64Random.html
+ * <p>
+ * Adapted from
+ * http://dsiutils.di.unimi.it/docs/it/unimi/dsi/util/SplitMix64Random.html
  */
 public class Random extends java.util.Random {
   private static final long serialVersionUID = 1L;
@@ -14,30 +15,21 @@ public class Random extends java.util.Random {
 
   private static Random generator;
 
-  static {
-    generator = new Random();
-  }
+  static { generator = new Random(); }
 
   /**
-   * Produces a pseudo random number from the interval [0,1]. A direct replacement for Math.random()
+   * Produces a pseudo random number from the interval [0,1]. A direct
+   * replacement for Math.random()
    *
    * @return A pseudo random number from the interval [0,1].
    */
-  public static double random() {
-    return generator.nextDouble();
-  }
+  protected static double random() { return generator.nextDouble(); }
 
-  public static void seed(int s) {
-    generator = new Random(s);
-  }
+  protected static void seed(int s) { generator = new Random(s); }
 
-  public Random() {
-    this(System.nanoTime());
-  }
+  private Random() { this(System.nanoTime()); }
 
-  private Random(final long seed) {
-    x = seed;
-  }
+  private Random(final long seed) { x = seed; }
 
   private static long staffordMix13(long z) {
     z = (z ^ (z >>> 30)) * 0xBF58476D1CE4E5B9L;
@@ -47,7 +39,7 @@ public class Random extends java.util.Random {
 
   private static int staffordMix4Upper32(long z) {
     z = (z ^ (z >>> 33)) * 0x62A9D9ED799705F5L;
-    return (int) (((z ^ (z >>> 28)) * 0xCB24D0A5C88C35B3L) >>> 32);
+    return (int)(((z ^ (z >>> 28)) * 0xCB24D0A5C88C35B3L) >>> 32);
   }
 
   @Override
@@ -62,26 +54,35 @@ public class Random extends java.util.Random {
 
   @Override
   public int nextInt(final int n) {
-    return (int) nextLong(n);
+    return (int)nextLong(n);
   }
 
   public long nextLong(final long n) {
-    if (n <= 0) throw new IllegalArgumentException("illegal bound " + n + " (must be positive)");
+    if (n <= 0)
+      throw new IllegalArgumentException("illegal bound " + n +
+                                         " (must be positive)");
     long t = staffordMix13(x += PHI);
     final long nMinus1 = n - 1;
-    if ((n & nMinus1) == 0) return t & nMinus1;
-    for (long u = t >>> 1; u + nMinus1 - (t = u % n) < 0; u = staffordMix13(x += PHI) >>> 1) ;
+    if ((n & nMinus1) == 0)
+      return t & nMinus1;
+    for (long u = t >>> 1; u + nMinus1 - (t = u % n) < 0;
+         u = staffordMix13(x += PHI) >>> 1)
+      ;
     return t;
   }
 
   @Override
   public double nextDouble() {
-    return Double.longBitsToDouble(staffordMix13(x += PHI) >>> 12 | 0x3FFL << 52) - 1.0;
+    return Double.longBitsToDouble(staffordMix13(x += PHI) >>> 12 | 0x3FFL
+                                                                        << 52) -
+        1.0;
   }
 
   @Override
   public float nextFloat() {
-    return Float.intBitsToFloat(staffordMix4Upper32(x += PHI) >>> 41 | 0x3F8 << 20) - 1.0f;
+    return Float.intBitsToFloat(staffordMix4Upper32(x += PHI) >>> 41 |
+                                0x3F8 << 20) -
+        1.0f;
   }
 
   @Override
@@ -94,7 +95,8 @@ public class Random extends java.util.Random {
     int i = bytes.length, n = 0;
     while (i != 0) {
       n = Math.min(i, 8);
-      for (long bits = staffordMix13(x += PHI); n-- != 0; bits >>= 8) bytes[--i] = (byte) bits;
+      for (long bits = staffordMix13(x += PHI); n-- != 0; bits >>= 8)
+        bytes[--i] = (byte)bits;
     }
   }
 }
