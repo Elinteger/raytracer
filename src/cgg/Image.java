@@ -1,25 +1,44 @@
 package cgg;
 
-import tools.*;
+import tools.Color;
+import tools.ImageWriter;
 
 public class Image implements tools.Image {
 
-    // ---8<--- missing-implementation
+    protected int width;
+    protected int height;
+    protected double[][][] pixels;
+
     // Provides storage for the image data.
     public Image(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.pixels = new double[width][height][3];  // 3 = rgb
     }
 
     // Stores the RGB color components for one pixel addressed
     // by it's coordinates in the image.
+    @Override
     public void setPixel(int x, int y, Color color) {
+        pixels[x][y][0] = color.r();
+        pixels[x][y][1] = color.g();
+        pixels[x][y][2] = color.b();
     }
 
     // Stores the image data in a PNG file.
     public void writePng(String name) {
-        System.out.format("Implement function `cgg.Image.writePng` to actually write image `%s`\n", name);
-        // ImageWriter.writePng(name, data, width, height);
+        // writePng expects double[], unwrap pixels which is [][][] to match that
+        double[] dataIn = new double[width*height*3];
+        int currentIndex = 0;
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < width; y++) {
+                System.arraycopy(pixels[x][y], 0, dataIn, currentIndex, 3);
+                currentIndex += 3; 
+            }
+        }
+
+        ImageWriter.writePng(name, dataIn, this.width, this.height);
     }
-    // --->8---
 
     // Retrieves the RGB color components for one particular pixel addressed
     // by it's coordinates in the image.
