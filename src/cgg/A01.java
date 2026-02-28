@@ -1,6 +1,5 @@
 package cgg;
 
-import static tools.Color.*;
 import static tools.Functions.*;
 
 public class A01 {
@@ -10,14 +9,15 @@ public class A01 {
     int height = 400;
 
     // This class instance defines the contents of the image.
-    var constant = new ConstantColor(gray);
+    // var constant = new ConstantColor(green);
+    var diskCollection = new Disk2DCollection(9, width, height);
 
     // Creates an image and iterates over all pixel positions inside the image.
     var image = new Image(width, height);
     for (int x = 0; x != width; x++)
       for (int y = 0; y != height; y++)
         // Sets the color for one particular pixel.
-        image.setPixel(x, y, constant.getColor(vec2(x, y)));
+        image.setPixel(x, y, diskCollection.getColor(vec2(x, y)));
 
     // Write the image to disk.
     image.writePng("a01");
